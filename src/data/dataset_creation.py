@@ -9,7 +9,6 @@ This module creates synthetic training data for domain name generation by:
 """
 
 import json
-import random
 import re
 from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
@@ -18,6 +17,7 @@ from pathlib import Path
 
 import pandas as pd
 from tqdm import tqdm
+import secrets
 
 logger = logging.getLogger(__name__)
 
@@ -102,11 +102,11 @@ class SyntheticDatasetCreator:
     
     def generate_business_description(self) -> BusinessDescription:
         """Generate a random business description."""
-        industry = random.choice(self.industries)
-        business_type = random.choice(self.business_types)
-        target_audience = random.choice(self.target_audiences)
-        tone = random.choice(self.tones)
-        complexity = random.choice(self.complexities)
+        industry = secrets.choice(self.industries)
+        business_type = secrets.choice(self.business_types)
+        target_audience = secrets.choice(self.target_audiences)
+        tone = secrets.choice(self.tones)
+        complexity = secrets.choice(self.complexities)
         
         description = self._create_description(
             industry, business_type, target_audience, tone, complexity
@@ -156,7 +156,7 @@ class SyntheticDatasetCreator:
         default_template = "{tone} {business_type} in the {industry} industry serving {target_audience}"
         
         template = industry_templates.get(industry, [default_template])
-        template = random.choice(template)
+        template = secrets.choice(template)
         
         # Fill in placeholders
         description = template.format(
@@ -164,24 +164,24 @@ class SyntheticDatasetCreator:
             business_type=business_type.replace('_', ' '),
             industry=industry.replace('_', ' '),
             target_audience=target_audience.replace('_', ' '),
-            tech_focus=random.choice(["AI solutions", "web development", "mobile apps", "cloud services"]),
-            tech_solution=random.choice(["digital transformation", "automation", "data analytics"]),
-            tech_area=random.choice(["machine learning", "cybersecurity", "IoT", "blockchain"]),
-            health_service=random.choice(["primary care", "specialized treatment", "preventive care"]),
-            health_focus=random.choice(["pediatrics", "cardiology", "dermatology", "orthopedics"]),
-            food_type=random.choice(["Italian", "Mexican", "Asian fusion", "American", "Mediterranean"]),
-            food_focus=random.choice(["organic ingredients", "farm-to-table", "artisan bread", "craft coffee"]),
-            dining_experience=random.choice(["casual dining", "fine dining", "fast casual", "food truck"]),
-            consulting_area=random.choice(["strategy", "operations", "marketing", "finance", "technology"]),
-            consulting_service=random.choice(["business optimization", "growth strategy", "process improvement"]),
-            business_focus=random.choice(["startup consulting", "enterprise solutions", "digital marketing"])
+            tech_focus=secrets.choice(["AI solutions", "web development", "mobile apps", "cloud services"]),
+            tech_solution=secrets.choice(["digital transformation", "automation", "data analytics"]),
+            tech_area=secrets.choice(["machine learning", "cybersecurity", "IoT", "blockchain"]),
+            health_service=secrets.choice(["primary care", "specialized treatment", "preventive care"]),
+            health_focus=secrets.choice(["pediatrics", "cardiology", "dermatology", "orthopedics"]),
+            food_type=secrets.choice(["Italian", "Mexican", "Asian fusion", "American", "Mediterranean"]),
+            food_focus=secrets.choice(["organic ingredients", "farm-to-table", "artisan bread", "craft coffee"]),
+            dining_experience=secrets.choice(["casual dining", "fine dining", "fast casual", "food truck"]),
+            consulting_area=secrets.choice(["strategy", "operations", "marketing", "finance", "technology"]),
+            consulting_service=secrets.choice(["business optimization", "growth strategy", "process improvement"]),
+            business_focus=secrets.choice(["startup consulting", "enterprise solutions", "digital marketing"])
         )
         
         # Add complexity modifiers
         if complexity == "complex":
-            description += f" with advanced {random.choice(['analytics', 'automation', 'integration', 'customization'])} capabilities"
+            description += f" with advanced {secrets.choice(['analytics', 'automation', 'integration', 'customization'])} capabilities"
         elif complexity == "moderate":
-            description += f" offering {random.choice(['comprehensive', 'tailored', 'specialized'])} solutions"
+            description += f" offering {secrets.choice(['comprehensive', 'tailored', 'specialized'])} solutions"
         
         return description
     
